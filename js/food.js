@@ -14,7 +14,7 @@ class Food {
   }
 
   drawFood() {
-    if (this.opacity > 1) {
+    if (this.opacity > 0.7) {
       this.opacity = 0.25;
     }
 
@@ -27,7 +27,7 @@ class Food {
       1, 
       1);
 
-    this.opacity += 0.005;
+    this.opacity += 0.02;
   }
 
 }

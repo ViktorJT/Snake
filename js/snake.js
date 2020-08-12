@@ -1,62 +1,78 @@
-class Snake {
+// TODO make a 'startup' loop for the snake circling around the first bit of food
+// TODO make a second snake player?
 
+class Snake {
     constructor(startingX, startingY) {
       this.body = [
         [startingX, startingY],
-        // [startingX, startingY + 1],
-        // [startingX, startingY + 2],
-        // [startingX, startingY + 3],
-        // [startingX, startingY + 4],
-        // [startingX, startingY + 5]
+        [startingX, startingY + 1],
+        [startingX, startingY + 2],
+        [startingX, startingY + 3],
+        [startingX, startingY + 4],
+        [startingX, startingY + 5],
+        [startingX, startingY + 6]
       ];
       this.xSpeed = 0;
       this.ySpeed = 0;
+    }
 
-      this.direction = ( x, y ) => {
-        this.xSpeed = x;
-        this.ySpeed = y;
+    direction = ( x, y ) => {
+      this.xSpeed = x;
+      this.ySpeed = y;
+    }
+
+    moveSnake = () => {
+
+      if(this.ySpeed === 0 && this.xSpeed === 0) {
+        return;
       }
 
-      // this.moveSnake = () => {
-      //   this.body[0][0] += this.xSpeed * 1;
-      //   this.body[0][1] += this.ySpeed * 1;
+      let currentPosition = Array.from(this.body[0]);
 
-      //   this.body[0][0] = clampValue(this.body[0][0], 0, canvas.gridWidth - 1);
-      //   this.body[0][1] = clampValue(this.body[0][1], 0, canvas.gridHeight - 1);
-      // }
+      this.body.unshift( currentPosition );
 
-      this.moveSnake = () => {
+      this.body[0][0] += this.xSpeed;
+      this.body[0][1] += this.ySpeed;
 
-
-        // EVERY frame, do this:
-        //
-        let head = Array.from(this.body[this.body.length - 1]);
-        
-        this.body.shift();
-        head[0] += this.xSpeed;
-        head[1] += this.ySpeed;
-        this.body.push(head);
-
-
-        // ! clamps make the snake go sideways, need to fix
-        // head[0] = clampValue(head[0], 0, canvas.gridWidth - 1);
-        // head[0] = clampValue(head[1], 0, canvas.gridHeight - 1);
+      if (this.body[0][0] > canvas.gridWidth) {
+        this.body[0][0] = 0;
+      } else if (this.body[0][0] < 0) {
+        this.body[0][0] = canvas.gridWidth;
       }
+      
+      if (this.body[0][1] > canvas.gridHeight) {
+        this.body[0][1] = 0;
+      } else if (this.body[0][1] < 0) {
+        this.body[0][1] = canvas.gridHeight;
+      }
+      
+      this.body.pop();
+    
+    }
+
+    checkCollision() {
+      const headX = this.body[0][0];
+      const headY = this.body[0][1];
+
+      for (let i = 1; i < this.body.length; i++) {
+        if (headX === this.body[i][0] && headY === this.body[i][1]) {
+          window.alert('game over');
+        }
+      }
+      
     }
 
     turnSnake(key) {
-      if ( key === 'ArrowUp' ) { this.direction(0, -1) }
-      else if ( key === 'ArrowRight' ) { this.direction(1, 0) }
-      else if ( key === 'ArrowDown' ) { this.direction(0, 1) }
-      else if ( key === 'ArrowLeft' ) { this.direction(-1, 0) }
+      if (key === 'ArrowUp' && this.ySpeed <= 0) {this.direction(0, -1)}
+      if (key === 'ArrowRight' && this.xSpeed >= 0) {this.direction(1, 0)}
+      if (key === 'ArrowDown' && this.ySpeed >= 0) {this.direction(0, 1)}
+      if (key === 'ArrowLeft' && this.xSpeed <= 0) {this.direction(-1, 0)}
     }
-
-    // * make functions for drawHead and drawTail which respond to xSpeed & ySpeed, as well as this.direction and turnSnake functions!
 
     drawSnake() {
       this.drawHead();
-      // if (this.body.length > 1) { this.drawBody() }
-      // this.drawTail();
+      this.drawBody();
+      this.drawTail();
     }
 
     drawHead() {
@@ -67,28 +83,75 @@ class Snake {
 
       canvas.ctx.beginPath();
 
-      // if (this.xSpeed === 0 && this.ySpeed > 0) {
-        
-      // } else if (this.xSpeed === 0 && this.ySpeed < 0) {
+      if (this.ySpeed < 0) { 
+        canvas.ctx.fillRect(
+          headX, 
+          headY + .5, 
+          1, 
+          .5);
+  
+        canvas.ctx.arc(
+          headX + .5, 
+          headY + .5,
+          .5, 
+          1 * Math.PI, 
+          0 * Math.PI);
 
-      // } else if (this.xSpeed > 0 && this.ySpeed === 0) {
+      } else if (this.ySpeed > 0) {
+        canvas.ctx.fillRect(
+          headX, 
+          headY, 
+          1, 
+          .5);
+  
+        canvas.ctx.arc(
+          headX + .5, 
+          headY + .5,
+          .5, 
+          0 * Math.PI, 
+          1 * Math.PI);
+  
+      } else if (this.xSpeed < 0) {
+        canvas.ctx.fillRect(
+          headX + .5, 
+          headY, 
+          .5, 
+          1);
+  
+        canvas.ctx.arc(
+          headX + .5, 
+          headY + .5,
+          .5, 
+          .5 * Math.PI, 
+          1.5 * Math.PI);
 
-      // } else if (this.xSpeed < 0 && this.ySpeed === 0) {
-
-      // } else { startAngle = 1, endAngle = 0 }
-
-      canvas.ctx.fillRect(
-        headX, 
-        headY + .5, 
-        1, 
-        .5);
-
-      canvas.ctx.arc(
-        headX + .5, 
-        headY + .5,
-        .5, 
-        1 * Math.PI, 
-        0 * Math.PI);
+      } else if (this.xSpeed > 0) {
+        canvas.ctx.fillRect(
+          headX, 
+          headY, 
+          .5, 
+          1);
+  
+        canvas.ctx.arc(
+          headX + .5, 
+          headY + .5,
+          .5, 
+          1.5 * Math.PI, 
+          .5 * Math.PI);
+      } else {
+        canvas.ctx.fillRect(
+          headX, 
+          headY + .5, 
+          1, 
+          .5);
+  
+        canvas.ctx.arc(
+          headX + .5, 
+          headY + .5,
+          .5, 
+          1 * Math.PI, 
+          0 * Math.PI);
+      }
 
       canvas.ctx.fill();
       canvas.ctx.closePath();
@@ -96,7 +159,6 @@ class Snake {
 
     drawBody() {
       canvas.ctx.beginPath();
-
       for (let i = 1; i < this.body.length - 1; i++) {
         if (i % 2) {
           canvas.ctx.fillStyle = '#12C44D'
@@ -117,32 +179,42 @@ class Snake {
     drawTail() {
       let tailX = this.body[`${this.body.length - 1}`][0];
       let tailY = this.body[`${this.body.length - 1}`][1];
+      let prevX = this.body[`${this.body.length - 2}`][0];
+      let prevY = this.body[`${this.body.length - 2}`][1];
 
       canvas.ctx.fillStyle = '#5af78e'
 
       canvas.ctx.beginPath();
 
-      // if (this.xSpeed > 0) {
-        // put the tail turning logic here
-      // }
+      if (prevX < tailX) { 
+        canvas.ctx.moveTo(tailX, tailY);
+        canvas.ctx.lineTo(tailX + 1, tailY + .5);
+        canvas.ctx.lineTo(tailX, tailY + 1);
+        canvas.ctx.closePath();
+        canvas.ctx.fill();
 
-      // canvas.ctx.fillRect(
-      //   tailX, 
-      //   tailY, 
-      //   1, 
-      //   .5
-      // );
+      } else if (prevX > tailX) {
+        canvas.ctx.moveTo(tailX + 1, tailY);
+        canvas.ctx.lineTo(tailX, tailY + .5);
+        canvas.ctx.lineTo(tailX + 1, tailY + 1);
+        canvas.ctx.closePath();
+        canvas.ctx.fill();
 
-      // canvas.ctx.moveTo(tailX, tailY + .5);
-      // canvas.ctx.lineTo(tailX + .5, tailY + 1);
-      // canvas.ctx.lineTo(tailX + 1, tailY);
-      // canvas.ctx.fill();
+      } else if (prevY < tailY) {
+        canvas.ctx.moveTo(tailX, tailY);
+        canvas.ctx.lineTo(tailX + .5, tailY + 1);
+        canvas.ctx.lineTo(tailX + 1, tailY);
+        canvas.ctx.closePath();
+        canvas.ctx.fill();
 
-      canvas.ctx.moveTo(tailX, tailY);
-      canvas.ctx.lineTo(tailX + .5, tailY + 1);
-      canvas.ctx.lineTo(tailX + 1, tailY);
-      canvas.ctx.closePath();
-      canvas.ctx.fill();
+      } else if (prevY > tailY) {
+        canvas.ctx.moveTo(tailX + 1, tailY + 1);
+        canvas.ctx.lineTo(tailX + .5, tailY);
+        canvas.ctx.lineTo(tailX, tailY + 1);
+        canvas.ctx.closePath();
+        canvas.ctx.fill();
+      }
+
     }
 
     eatFood() {
@@ -153,8 +225,10 @@ class Snake {
     }
 
     growSnake() {
-      // this.body.push([])
+      if (this.body.length === 6) {
+        initGame();
+      }
+      this.body.push([300,300]);
     }
 
 }
-

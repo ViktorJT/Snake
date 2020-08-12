@@ -1,6 +1,6 @@
 class Canvas {
   constructor() {
-    this.GAME_SPEED = 10;
+    this.GAME_SPEED = 40;
     this.GRID_SCALE = 10;
     this.ctx = document.getElementById('canvas').getContext('2d');
 
@@ -24,7 +24,9 @@ class Canvas {
 
     this.ctx.scale(this.GRID_SCALE, this.GRID_SCALE);
     this.ctx.clearRect(0, 0, canvas.gridWidth, canvas.gridHeight);
+    
     snake.moveSnake();
+    snake.checkCollision();
     snake.drawSnake();
     snake.eatFood();
     food.drawFood();
