@@ -1,19 +1,23 @@
 // TODO make a 'startup' loop for the snake circling around the first bit of food
-// TODO make a second snake player?
+// TODO move checkCollision to canvas.js and make it generic?
+// TODO move gameInit function to canvas.js and make it generic
+// TODO fade out all snakes but the one who died
 
 class Snake {
-    constructor(startingX, startingY) {
-      this.body = [
-        [startingX, startingY],
-        [startingX, startingY + 1],
-        [startingX, startingY + 2],
-        [startingX, startingY + 3],
-        [startingX, startingY + 4],
-        [startingX, startingY + 5],
-        [startingX, startingY + 6]
-      ];
-      this.xSpeed = 0;
-      this.ySpeed = 0;
+  constructor(startingX, startingY, player) {
+    this.player = player;
+    this.head = [startingX, startingY];
+    this.body = [
+      [startingX, startingY],
+      [startingX - 1, startingY],
+      [startingX - 2, startingY],
+      [startingX - 3, startingY],
+      [startingX - 4, startingY],
+      [startingX - 5, startingY],
+      [startingX - 6, startingY]
+    ];
+    this.xSpeed = 0;
+    this.ySpeed = 0;
     }
 
     direction = ( x, y ) => {
@@ -56,17 +60,18 @@ class Snake {
 
       for (let i = 1; i < this.body.length; i++) {
         if (headX === this.body[i][0] && headY === this.body[i][1]) {
+          clearInterval(canvas.intervalId);
           window.alert('game over');
         }
       }
       
     }
 
-    turnSnake(key) {
-      if (key === 'ArrowUp' && this.ySpeed <= 0) {this.direction(0, -1)}
-      if (key === 'ArrowRight' && this.xSpeed >= 0) {this.direction(1, 0)}
-      if (key === 'ArrowDown' && this.ySpeed >= 0) {this.direction(0, 1)}
-      if (key === 'ArrowLeft' && this.xSpeed <= 0) {this.direction(-1, 0)}
+    turnSnake(direction) {
+      if (direction === 'up' && this.ySpeed <= 0) {this.direction(0, -1)}
+      if (direction === 'right' && this.xSpeed >= 0) {this.direction(1, 0)}
+      if (direction === 'down' && this.ySpeed >= 0) {this.direction(0, 1)}
+      if (direction === 'left' && this.xSpeed <= 0) {this.direction(-1, 0)}
     }
 
     drawSnake() {
@@ -76,7 +81,10 @@ class Snake {
     }
 
     drawHead() {
-      canvas.ctx.fillStyle = '#5af78e';
+
+      if (this.player === 1) {canvas.ctx.fillStyle = '#5af78e'} 
+      if (this.player === 2) {canvas.ctx.fillStyle = '#FDCD5E'}
+
 
       let headX = this.body[0][0];
       let headY = this.body[0][1];
@@ -160,12 +168,23 @@ class Snake {
     drawBody() {
       canvas.ctx.beginPath();
       for (let i = 1; i < this.body.length - 1; i++) {
-        if (i % 2) {
-          canvas.ctx.fillStyle = '#12C44D'
-        } else {
-          canvas.ctx.fillStyle = '#5af78e'
+
+        if (this.player === 1) {
+          if (i % 2) {
+            canvas.ctx.fillStyle = '#0AD64E'
+          } else {
+            canvas.ctx.fillStyle = '#5af78e'
+          }
         }
-        
+
+        if (this.player === 2) {
+          if (i % 2) {
+            canvas.ctx.fillStyle = '#FBAF00'
+          } else {
+            canvas.ctx.fillStyle = '#FDCD5E'
+          }
+        }
+
         canvas.ctx.fillRect(
           this.body[i][0], 
           this.body[i][1], 
@@ -182,7 +201,9 @@ class Snake {
       let prevX = this.body[`${this.body.length - 2}`][0];
       let prevY = this.body[`${this.body.length - 2}`][1];
 
-      canvas.ctx.fillStyle = '#5af78e'
+      if (this.player === 1) {canvas.ctx.fillStyle = '#5af78e'}
+      if (this.player === 2) {canvas.ctx.fillStyle = '#FDCD5E'}
+      
 
       canvas.ctx.beginPath();
 
@@ -225,7 +246,7 @@ class Snake {
     }
 
     growSnake() {
-      if (this.body.length === 6) {
+      if (this.body.length === 7) {
         initGame();
       }
       this.body.push([300,300]);

@@ -1,7 +1,11 @@
+// TODO add random setTimeout before picking a new location
+// TODO add a food type that makes a snake ignore collision for a set time? 
+// TODO add random pling (all in a chord or something?) when picking up food?
+
 class Food {
 
   constructor() {
-    this.location = [ canvas.gridCenterX, canvas.gridCenterY - canvas.GRID_SCALE ];
+    this.location = [canvas.gridCenterX, canvas.gridCenterY];
     this.opacity = 1;
   }
 

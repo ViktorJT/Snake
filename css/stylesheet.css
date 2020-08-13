@@ -46,31 +46,6 @@ body {
   place-items: center;
 }
 
-header {
-  display: flex;
-  flex-flow: column nowrap;
-  place-items: center;
-}
-
-h1 {
-  letter-spacing: -2px;
-}
-
-p {
-  opacity: 0.5;
-}
-
-button {
-  border: 1px solid var(--primary-color);
-  padding: 0.5rem 2rem;
-  background: none;
-  font-family: inherit;
-  font-size: medium;
-  font-weight: lighter;
-  color: var(--primary-color);
-  border-radius: var(--border-radius);
-}
-
 .wrapper {
   border-radius: var(--border-radius);
   background: radial-gradient(

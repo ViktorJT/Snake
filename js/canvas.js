@@ -1,3 +1,8 @@
+// TODO canvas .on colors change depending on which snake is longest
+// TODO longer snakes = slower?
+// TODO win / lose game states
+// TODO add sound when losing
+
 class Canvas {
   constructor() {
     this.GAME_SPEED = 40;
@@ -25,10 +30,16 @@ class Canvas {
     this.ctx.scale(this.GRID_SCALE, this.GRID_SCALE);
     this.ctx.clearRect(0, 0, canvas.gridWidth, canvas.gridHeight);
     
-    snake.moveSnake();
-    snake.checkCollision();
-    snake.drawSnake();
-    snake.eatFood();
+    player2.moveSnake();
+    player2.checkCollision();
+    player2.drawSnake();
+    player2.eatFood();
+    
+    player1.moveSnake();
+    player1.checkCollision();
+    player1.drawSnake();
+    player1.eatFood();
+
     food.drawFood();
 
     this.ctx.restore();
