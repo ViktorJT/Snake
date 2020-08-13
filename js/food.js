@@ -1,6 +1,7 @@
 // TODO add random setTimeout before picking a new location
 // TODO add a food type that makes a snake ignore collision for a set time? 
-// TODO add random pling (all in a chord or something?) when picking up food?
+// TODO add random 'pling' (all in a chord or something?) when picking up food?
+// TODO add a counter for all food collected, control the game speed with it and a clamp?
 
 class Food {
 
@@ -35,3 +36,6 @@ class Food {
   }
 
 }
+
+
+

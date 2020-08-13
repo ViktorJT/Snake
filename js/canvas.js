@@ -24,21 +24,34 @@ class Canvas {
     },this.GAME_SPEED);
   }
 
+  checkCollision() {
+    // ! this could be solved with array.some()?
+    // for (let i = 1; i < this.body.length; i++) {
+    //   if (this.head[0] === this.body[i][0] && this.head[1] === this.body[i][1]) {
+    //     clearInterval(canvas.intervalId);
+    //     window.alert('game over');
+    //   }
+    // }
+  }
+
   updateFrame() {
     this.ctx.save();
 
     this.ctx.scale(this.GRID_SCALE, this.GRID_SCALE);
     this.ctx.clearRect(0, 0, canvas.gridWidth, canvas.gridHeight);
     
-    player2.moveSnake();
-    player2.checkCollision();
-    player2.drawSnake();
-    player2.eatFood();
-    
+    // ! can these be moved to the bottom of snake.js, and then just have one function here per snake?
     player1.moveSnake();
-    player1.checkCollision();
-    player1.drawSnake();
     player1.eatFood();
+    player1.drawSnake();
+    this.checkCollision();
+
+    // if (player2) {
+    //   player2.moveSnake();
+    //   player2.checkCollision();
+    //   player2.drawSnake();
+    //   player2.eatFood();
+    // }
 
     food.drawFood();
 
