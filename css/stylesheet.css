@@ -20,13 +20,26 @@
     0 20.9px 141px rgba(252, 106, 194, 0.011), 
     0 50px 230px rgba(0, 0, 0, 0.024);
 
+  --box-shadow-green: 
+    0 1.4px 77.5px rgba(10, 214, 78, 0.012), 
+    0 3.3px 104px rgba(10, 214, 78, 0.01),
+    0 6.3px 113px rgba(0, 0, 0, 0.022), 
+    0 11.2px 119.9px rgba(10, 214, 78, 0.015),
+    0 20.9px 141px rgba(10, 214, 78, 0.011), 
+    0 50px 230px rgba(0, 0, 0, 0.024);
+
+  --box-shadow-orange: 
+    0 1.4px 77.5px rgba(251, 175, 0, 0.012), 
+    0 3.3px 104px rgba(251, 175, 0, 0.01),
+    0 6.3px 113px rgba(0, 0, 0, 0.022), 
+    0 11.2px 119.9px rgba(251, 175, 0, 0.015),
+    0 20.9px 141px rgba(251, 175, 0, 0.011), 
+    0 50px 230px rgba(0, 0, 0, 0.024);
+
   --food-color: rgba(252, 106, 194, .3);
   --food-color-faded: rgba(252, 106, 194, .1);
 
   --border-radius: 0.5rem;
-  --primary-color: #fafafa;
-  --secondary-color: rgba(250, 216, 0, 1);
-  --secondary-color-faded: rgba(250, 216, 0, 0.5);
 }
 
 * {
@@ -44,6 +57,8 @@ body {
   min-width: 100vw;
   margin: 0;
   place-items: center;
+  color: #f5f5f5;
+  overflow: hidden;
 }
 
 .wrapper {
@@ -56,20 +71,83 @@ body {
   box-shadow: var(--box-shadow-off);
   overflow: hidden;
   padding: 2rem;
-  /* border: 1px solid var(--canvas-background-color); */
   transition: box-shadow 1s ease-in;
+}
+
+.wrapper.on {
+  box-shadow: var(--box-shadow-on);
+}
+
+.wrapper.green {
+  box-shadow: var(--box-shadow-green);
+}
+
+.wrapper.orange {
+  box-shadow: var(--box-shadow-orange);
 }
 
 canvas {
   background-color: var(--body-background-color);
   border: 1px solid var(--food-color-faded);
-  transition: border 1s ease-in;
+  opacity: 0.5;
+  transition: all 1s ease-in;
 }
 
 canvas.on {
   border: 1px solid var(--food-color);
+  opacity: 1;
 }
 
-.wrapper.on {
-  box-shadow: var(--box-shadow-on);
+canvas.on.green {
+  border: 1px solid rgba(10, 214, 78, 0.6);
+}
+
+canvas.on.orange {
+  border: 1px solid rgba(251, 175, 0, 0.6);
+}
+
+header {
+  display: grid;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+  min-width: 100vw;
+  position: absolute;
+  place-items: center;
+  opacity: 0;
+  transform: translateY(4rem);
+  transition: all 1s ease-in-out;
+  top: 0;
+  left: 0;
+}
+
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 2rem;
+}
+
+.controls {
+  display: inherit;
+  justify-content: space-between;
+  padding: 0;
+}
+
+h1 {
+  letter-spacing: -1px;
+  font-weight: lighter;
+  color: #fc6ac2;
+  opacity: 0.8;
+}
+
+td {
+  text-align: center;
+}
+
+table {
+  opacity: 0.8;
+}
+
+header.fade-in {
+  opacity: 1;
+  transform: translateY(0);
 }

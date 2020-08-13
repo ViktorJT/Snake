@@ -1,7 +1,4 @@
 // TODO canvas .on colors change depending on which snake is longest
-// TODO longer snakes = slower?
-// TODO win / lose game states
-// TODO add sound when losing
 
 class Canvas {
   constructor() {
@@ -19,45 +16,82 @@ class Canvas {
   }
 
   start() {
+    if (this.intervalId > 0) { return undefined }
     this.intervalId = setInterval(() => {
       this.updateFrame();
     },this.GAME_SPEED);
   }
 
   checkCollision() {
-    // ! this could be solved with array.some()?
-    // for (let i = 1; i < this.body.length; i++) {
-    //   if (this.head[0] === this.body[i][0] && this.head[1] === this.body[i][1]) {
-    //     clearInterval(canvas.intervalId);
-    //     window.alert('game over');
-    //   }
-    // }
+
+    let p1X = player1.body[0][0];
+    let p1Y = player1.body[0][1];
+    let p2X = player2.body[0][0];
+    let p2Y = player2.body[0][1];
+
+    if (p1X === p2X && p1Y === p2Y) {
+      player1.alive = false
+      player2.alive = false
+
+      setTimeout(function(){
+         player1.alive = true;
+         player2.alive = true;
+      }, 3000);
+    }
+    
+    for (let i = 0; i < player2.body.length; i++) {
+      if (p1X === player2.body[i][0] && p1Y === player2.body[i][1]) {
+        player2.alive = false
+        setTimeout(function(){
+          player2.alive = true;
+        }, 3000);
+      }
+    }
+
+    for (let i = 0; i < player1.body.length; i++) {
+      if (p2X === player1.body[i][0] && p2Y === player1.body[i][1]) {
+        player1.alive = false
+        setTimeout(function(){
+          player1.alive = true;
+       }, 3000);
+      }
+    }
+
   }
 
   updateFrame() {
     this.ctx.save();
 
     this.ctx.scale(this.GRID_SCALE, this.GRID_SCALE);
-    this.ctx.clearRect(0, 0, canvas.gridWidth, canvas.gridHeight);
+    this.ctx.clearRect(0, 0, canvas.gridWidth + this.GRID_SCALE, canvas.gridHeight + this.GRID_SCALE);
     
-    // ! can these be moved to the bottom of snake.js, and then just have one function here per snake?
     player1.moveSnake();
-    player1.eatFood();
-    player1.drawSnake();
+    player2.moveSnake();
     this.checkCollision();
-
-    // if (player2) {
-    //   player2.moveSnake();
-    //   player2.checkCollision();
-    //   player2.drawSnake();
-    //   player2.eatFood();
-    // }
-
     food.drawFood();
-
+    this.leader();
     this.ctx.restore();
+
   }
 
+  leader() {
+    if (player1.length > player2.length) {
+      wrapperElement.classList.remove('orange');
+      canvasElement.classList.remove('orange');
+      wrapperElement.classList.add('green');
+      canvasElement.classList.add('green');
+    } else if (player1.length < player2.length) {
+      wrapperElement.classList.remove('green');
+      canvasElement.classList.remove('green');
+      wrapperElement.classList.add('orange');
+      canvasElement.classList.add('orange');
+    } else {
+      wrapperElement.classList.remove('green');
+      canvasElement.classList.remove('green');
+      wrapperElement.classList.remove('orange');
+      canvasElement.classList.remove('orange');
+    }
+  }
   
 }
 

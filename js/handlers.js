@@ -2,35 +2,75 @@
 
 canvas = new Canvas();
 player1 = new Snake(
-  canvas.gridCenterX, 
+  canvas.gridCenterX - canvas.GRID_SCALE, 
   canvas.gridCenterY + canvas.GRID_SCALE, 1);
-// player2 = new Snake(20, 20, 2);
+player2 = new Snake(
+  canvas.gridCenterX + canvas.GRID_SCALE, 
+  canvas.gridCenterY - canvas.GRID_SCALE, 2);
 food = new Food();
 
-body = document.getElementsByTagName('body')[0];
 wrapperElement = document.querySelector('.wrapper');
 canvasElement = document.getElementById('canvas');
+headerElement = document.querySelector('header');
 
 canvas.updateFrame();
-canvas.start();
 
-const initGame = () => {
-  body.classList.toggle('on');
-  wrapperElement.classList.toggle('on');
-  canvasElement.classList.toggle('on');
+let loop = setInterval(looping, canvas.GAME_SPEED);
+let i = 0;
+function looping() {
+  canvas.updateFrame();
+  if (i === 80 || i >= 0  && i < 20) { 
+    player1.xDir = 1;
+    player1.yDir = 0;
+    player2.xDir = -1; 
+    player2.yDir = 0;
+    i++
+  }
+  else if (i >= 20 && i < 40) {     
+    player1.xDir = 0;
+    player1.yDir = -1;
+    player2.xDir = 0; 
+    player2.yDir = 1;
+    i++
+  }
+  else if (i >= 40 && i < 60) {     
+    player1.xDir = -1;
+    player1.yDir = 0;
+    player2.xDir = 1; 
+    player2.yDir = 0;
+    i++
+  }
+  else if (i >= 60 && i < 80) {     
+    player1.xDir = 0;
+    player1.yDir = 1;
+    player2.xDir = 0; 
+    player2.yDir = -1;
+    i++
+    if (i === 80) {
+      i = 0;
+    }
+  }
 }
 
-// ! DEBUG
-document.addEventListener('click', () => {
-  player1.length++
-})
-// ! DEBUG
+window.addEventListener('load', e => {
+
+  headerElement.classList.add('fade-in')
+
+});
 
 document.addEventListener('keydown', e => {
 
-  // ! IF the game hasn't started yet: break a setinterval that loops the two snakes
+  headerElement.classList.remove('fade-in')
 
-  // player1 (green)
+  if (loop) {
+    clearInterval(loop);
+    player1.looping = false;
+    player2.looping = false;
+    canvas.start();
+    wrapperElement.classList.add('on');
+    canvasElement.classList.add('on');
+  }
+
   switch(e.key) {
     case 'ArrowUp':
       player1.turnSnake('up');
@@ -46,48 +86,19 @@ document.addEventListener('keydown', e => {
       break;
   }
 
-  // if(player2) {
-  //   switch(e.key) {
-  //     case 'w':
-  //       player2.turnSnake('up');
-  //       break;
-  //     case 'd':
-  //       player2.turnSnake('right');
-  //       break;
-  //     case 's':
-  //       player2.turnSnake('down');
-  //       break;
-  //     case 'a':
-  //       player2.turnSnake('left');
-  //       break;
-  //   }
-  // }
+  switch(e.key) {
+    case 'w':
+      player2.turnSnake('up');
+      break;
+    case 'd':
+      player2.turnSnake('right');
+      break;
+    case 's':
+      player2.turnSnake('down');
+      break;
+    case 'a':
+      player2.turnSnake('left');
+      break;
+  }
 
 });
-
-let prevX = 10
-let prevY = 10
-
-let tailX = 11
-let tailY = 11
-
-canvas.ctx.beginPath();
-if (prevX < tailX) { 
-canvas.ctx.moveTo(tailX, tailY);
-canvas.ctx.lineTo(tailX + 1, tailY + .5);
-canvas.ctx.lineTo(tailX, tailY + 1);
-} else if (prevX > tailX) {
-  canvas.ctx.moveTo(tailX + 1, tailY);
-  canvas.ctx.lineTo(tailX, tailY + .5);
-  canvas.ctx.lineTo(tailX + 1, tailY + 1);
-} else if (prevY < tailY) {
-  canvas.ctx.moveTo(tailX, tailY);
-  canvas.ctx.lineTo(tailX + .5, tailY + 1);
-  canvas.ctx.lineTo(tailX + 1, tailY);
-} else if (prevY > tailY) {
-  canvas.ctx.moveTo(tailX + 1, tailY + 1);
-  canvas.ctx.lineTo(tailX + .5, tailY);
-  canvas.ctx.lineTo(tailX, tailY + 1);
-}
-canvas.ctx.closePath();
-canvas.ctx.fill();
