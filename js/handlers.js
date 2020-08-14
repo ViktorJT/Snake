@@ -1,5 +1,3 @@
-// TODO change starting positions of food + snakes
-
 canvas = new Canvas();
 player1 = new Snake(
   canvas.gridCenterX - canvas.GRID_SCALE, 

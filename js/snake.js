@@ -1,8 +1,6 @@
-// TODO make a 'startup' loop for the snake circling around the first bit of food
-// TODO move gameInit function to canvas.js and make it generic
-// TODO fade out all snakes but the one who died
-// TODO refactor the head + tail code with canvas.rotate instead of redrawing?
-// TODO tail flips when loopdilooping. update check to something like > 100000000 or something?
+// ! TODO reduce snake length by 1 if hit
+// TODO tail flips when loop-di-looping (when the tail is alone on the board)
+// ? TODO refactor the head + tail code with canvas.rotate instead of redrawing?
 
 class Snake {
   constructor(startingX, startingY, player) {

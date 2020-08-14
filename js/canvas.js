@@ -1,5 +1,3 @@
-// TODO canvas .on colors change depending on which snake is longest
-
 class Canvas {
   constructor() {
     this.GAME_SPEED = 40;
