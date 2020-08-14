@@ -36,6 +36,14 @@
     0 20.9px 141px rgba(251, 175, 0, 0.011), 
     0 50px 230px rgba(0, 0, 0, 0.024);
 
+  --box-shadow-red: 
+    0 1.4px 77.5px rgba(163, 0, 0, 0.012), 
+    0 3.3px 104px rgba(163, 0, 0, 0.01),
+    0 6.3px 113px rgba(0, 0, 0, 0.022), 
+    0 11.2px 119.9px rgba(163, 0, 0, 0.015),
+    0 20.9px 141px rgba(163, 0, 0, 0.011), 
+    0 50px 230px rgba(0, 0, 0, 0.024);
+
   --food-color: rgba(252, 106, 194, .3);
   --food-color-faded: rgba(252, 106, 194, .1);
 
@@ -86,6 +94,10 @@ body {
   box-shadow: var(--box-shadow-orange);
 }
 
+.wrapper.red {
+  box-shadow: var(--box-shadow-red);
+}
+
 canvas {
   background-color: var(--body-background-color);
   border: 1px solid var(--food-color-faded);
@@ -106,6 +118,10 @@ canvas.on.orange {
   border: 1px solid rgba(251, 175, 0, 0.6);
 }
 
+canvas.on.red {
+  border: 1px solid rgba(163, 0, 0, 0.6);
+}
+
 header {
   display: grid;
   flex-flow: column nowrap;
@@ -118,7 +134,7 @@ header {
   transition: all 1s ease-in-out;
   top: 0;
   left: 0;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px) grayscale(30%);
 }
 
 .container {
@@ -151,4 +167,8 @@ table {
 header.fade-in {
   opacity: 1;
   transform: translateY(0);
+}
+
+.invisible {
+  display: none;
 }

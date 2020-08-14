@@ -6,7 +6,7 @@ class Snake {
   constructor(startingX, startingY, player) {
       this.player = player;
       this.body = [[startingX, startingY]];
-      this.length = 10;
+      this.length = 15;
       this.xDir = 0;
       this.yDir = 0;
       this.alive = true;
@@ -69,8 +69,6 @@ class Snake {
           canvas.ctx.fillStyle = 'black'
         }
 
-
-
         if (i === 0) { this.drawHead(this.xDir, this.yDir) }
         else if (i === this.body.length - 1) 
           { this.drawTail() }
@@ -128,7 +126,6 @@ class Snake {
     eatFood() {
       if (food.location[0] === this.body[0][0] && food.location[1] === this.body[0][1]) {
         this.growSnake();
-        food.collected++
         food.pickRandomLocation();
       }
     }

@@ -7,9 +7,13 @@ player2 = new Snake(
   canvas.gridCenterY - canvas.GRID_SCALE, 2);
 food = new Food();
 
-wrapperElement = document.querySelector('.wrapper');
-canvasElement = document.getElementById('canvas');
-headerElement = document.querySelector('header');
+const wrapperElement = document.querySelector('.wrapper');
+const canvasElement = document.getElementById('canvas');
+const headerElement = document.querySelector('header');
+const h1Element = headerElement.querySelector('h1');
+const orangeSnakeElement = headerElement.querySelectorAll('td')[0];
+const greenSnakeElement = headerElement.querySelectorAll('td')[1];
+const restartButton = headerElement.getElementsByTagName('button')[0];
 
 canvas.updateFrame();
 
@@ -96,6 +100,25 @@ document.addEventListener('keydown', e => {
       break;
     case 'a':
       player2.turnSnake('left');
+      break;
+  }
+
+  // just for debugging and to show all functionality in presentation 👇
+
+  switch(e.key) {
+    case 'Home':
+      player2.length++
+      break;
+    case 'End':
+      player2.length--;
+      player2.body.splice(-1);
+      break;
+    case 'PageUp':
+      player1.length++
+      break;
+    case 'PageDown':
+      player1.length--;
+      player1.body.splice(-1);
       break;
   }
 

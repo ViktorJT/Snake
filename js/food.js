@@ -5,7 +5,6 @@ class Food {
   constructor() {
     this.location = [canvas.gridCenterX, canvas.gridCenterY];
     this.opacity = 1;
-    // this.collected = 0;
   }
 
   pickRandomLocation() {
