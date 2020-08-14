@@ -127,7 +127,6 @@ class Canvas {
 
   checkLoser() {
     if (player1.length < 5 || player2.length < 5) {
-      document.removeEventListener('keydown', keyHandler, true);
       clearInterval(this.intervalId);
       if (player1.length > 5 && player2.length > 5) {
         h1Element.innerText = "It's a tie!"
