@@ -19,6 +19,7 @@ canvas.updateFrame();
 
 let loop = setInterval(looping, canvas.GAME_SPEED);
 let i = 0;
+
 function looping() {
   canvas.updateFrame();
   if (i === 80 || i >= 0  && i < 20) { 
@@ -54,21 +55,14 @@ function looping() {
   }
 }
 
-window.addEventListener('load', e => {
+function keyHandler(e) {
 
-  headerElement.classList.add('fade-in')
-
-});
-
-document.addEventListener('keydown', e => {
-
-  headerElement.classList.remove('fade-in')
-
-  if (loop) {
+  if (player1.looping === true && player2.looping === true) {
     clearInterval(loop);
     player1.looping = false;
     player2.looping = false;
     canvas.start();
+    headerElement.classList.remove('fade-in');
     wrapperElement.classList.add('on');
     canvasElement.classList.add('on');
   }
@@ -121,5 +115,10 @@ document.addEventListener('keydown', e => {
       player1.body.splice(-1);
       break;
   }
+}
 
+window.addEventListener('load', e => {
+  headerElement.classList.add('fade-in')
 });
+
+document.addEventListener('keydown', (e) => keyHandler(e), true);

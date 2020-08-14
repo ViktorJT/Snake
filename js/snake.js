@@ -1,4 +1,3 @@
-// ! TODO reduce snake length by 1 if hit
 // TODO tail flips when loop-di-looping (when the tail is alone on the board)
 // ? TODO refactor the head + tail code with canvas.rotate instead of redrawing?
 
@@ -21,6 +20,8 @@ class Snake {
     moveSnake() {
       let headX = this.body[0][0];
       let headY = this.body[0][1];
+      
+      this.eatFood();
 
       this.body.unshift([headX += this.xDir, headY += this.yDir]);
 
@@ -31,7 +32,6 @@ class Snake {
       else if (headY < 0) {this.body[0][1] = canvas.gridHeight}
       
       this.body.pop();
-      this.eatFood();
       this.drawSnake();
     }
 

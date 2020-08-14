@@ -131,10 +131,10 @@ header {
   place-items: center;
   opacity: 0;
   transform: translateY(4rem);
-  transition: all 1s ease-in-out;
+  transition: all 0.4s ease-in-out;
   top: 0;
   left: 0;
-  backdrop-filter: blur(2px) grayscale(30%);
+  backdrop-filter: grayscale(30%);
 }
 
 .container {

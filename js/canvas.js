@@ -46,60 +46,35 @@ class Canvas {
          player2.alive = true;
       }, 3000);
     }
-    
-    for (let i = 0; i < player2.body.length; i++) {
-      if (p1X === player2.body[i][0] && p1Y === player2.body[i][1]) {
-        if (player2.alive === true) {
-          player2.alive = false;
-          player2.length -= 5;
-          player2.body.splice(-5);
 
-          setTimeout(function(){
-            player2.alive = true;
-          }, 3000);
+    if (player1.looping === false && player2.looping === false) {
+      for (let i = 1; i < player2.body.length; i++) {
+        if (p1X === player2.body[i][0] && p1Y === player2.body[i][1]) {
+          if (player2.alive === true) {
+            player2.alive = false;
+            player2.length -= 5;
+            player2.body.splice(-5);
+  
+            setTimeout(function(){
+              player2.alive = true;
+            }, 3000);
+          }
+        }
+      }
+  
+      for (let i = 1; i < player1.body.length; i++) {
+        if (p2X === player1.body[i][0] && p2Y === player1.body[i][1]) {
+          if (player1.alive === true) {
+            player1.alive = false;
+            player1.length -= 5;
+            player1.body.splice(-5);
+            setTimeout(function(){
+              player1.alive = true;
+           }, 3000);
+          }
         }
       }
     }
-
-    for (let i = 0; i < player1.body.length; i++) {
-      if (p2X === player1.body[i][0] && p2Y === player1.body[i][1]) {
-        if (player1.alive === true) {
-          player1.alive = false;
-          player1.length -= 5;
-          player1.body.splice(-5);
-          setTimeout(function(){
-            player1.alive = true;
-         }, 3000);
-        }
-      }
-    }
-
-    // for (let i = 2; i < player1.body.length; i++) {
-    //   if (p1X === player1.body[i][0] && p1Y === player1.body[i][1]) {
-    //     if (player1.alive === true) {
-    //       player1.alive = false;
-    //       player1.length -= 5;
-    //       player1.body.splice(-5);
-    //       setTimeout(function(){
-    //         player1.alive = true;
-    //      }, 3000);
-    //     }
-    //   }
-    // }
-
-    // for (let i = 2; i < player1.body.length; i++) {
-    //   if (p2X === player2.body[i][0] && p2Y === player2.body[i][1]) {
-    //     if (player1.alive === true) {
-    //       player2.alive = false;
-    //       player2.length -= 5;
-    //       player2.body.splice(-5);
-    //       setTimeout(function(){
-    //         player1.alive = true;
-    //      }, 3000);
-    //     }
-    //   }
-    // }
-
   }
 
   updateFrame() {
@@ -110,8 +85,8 @@ class Canvas {
     
     player1.moveSnake();
     player2.moveSnake();
-    this.checkCollision();
     food.drawFood();
+    this.checkCollision();
     this.leader();
     this.checkLoser();
     this.ctx.restore();
@@ -152,8 +127,8 @@ class Canvas {
 
   checkLoser() {
     if (player1.length < 5 || player2.length < 5) {
+      document.removeEventListener('keydown', keyHandler, true);
       clearInterval(this.intervalId);
-
       if (player1.length > 5 && player2.length > 5) {
         h1Element.innerText = "It's a tie!"
       }
@@ -166,9 +141,7 @@ class Canvas {
       restartButton.classList.remove('invisible');
       greenSnakeElement.innerText = player1.length;
       orangeSnakeElement.innerText = player2.length;
-      setTimeout(function(){
-        headerElement.classList.add('fade-in');
-      }, 10);
+      headerElement.classList.add('fade-in');
     }
   }
 }
