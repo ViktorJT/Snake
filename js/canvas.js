@@ -74,7 +74,7 @@ class Canvas {
       }
     }
 
-    for (let i = 0; i < player1.body.length; i++) {
+    for (let i = 2; i < player1.body.length; i++) {
       if (p1X === player1.body[i][0] && p1Y === player1.body[i][1]) {
         if (player1.alive === true) {
           player1.alive = false;
@@ -87,7 +87,7 @@ class Canvas {
       }
     }
 
-    for (let i = 0; i < player1.body.length; i++) {
+    for (let i = 2; i < player1.body.length; i++) {
       if (p2X === player2.body[i][0] && p2Y === player2.body[i][1]) {
         if (player1.alive === true) {
           player2.alive = false;
@@ -110,7 +110,9 @@ class Canvas {
     
     player1.moveSnake();
     player2.moveSnake();
-    this.checkCollision();
+    if (this.intervalId != 0) {
+      this.checkCollision();
+    }
     food.drawFood();
     this.leader();
     this.checkLoser();
