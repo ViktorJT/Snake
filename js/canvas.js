@@ -74,31 +74,31 @@ class Canvas {
       }
     }
 
-    for (let i = 2; i < player1.body.length; i++) {
-      if (p1X === player1.body[i][0] && p1Y === player1.body[i][1]) {
-        if (player1.alive === true) {
-          player1.alive = false;
-          player1.length -= 5;
-          player1.body.splice(-5);
-          setTimeout(function(){
-            player1.alive = true;
-         }, 3000);
-        }
-      }
-    }
+    // for (let i = 2; i < player1.body.length; i++) {
+    //   if (p1X === player1.body[i][0] && p1Y === player1.body[i][1]) {
+    //     if (player1.alive === true) {
+    //       player1.alive = false;
+    //       player1.length -= 5;
+    //       player1.body.splice(-5);
+    //       setTimeout(function(){
+    //         player1.alive = true;
+    //      }, 3000);
+    //     }
+    //   }
+    // }
 
-    for (let i = 2; i < player1.body.length; i++) {
-      if (p2X === player2.body[i][0] && p2Y === player2.body[i][1]) {
-        if (player1.alive === true) {
-          player2.alive = false;
-          player2.length -= 5;
-          player2.body.splice(-5);
-          setTimeout(function(){
-            player1.alive = true;
-         }, 3000);
-        }
-      }
-    }
+    // for (let i = 2; i < player1.body.length; i++) {
+    //   if (p2X === player2.body[i][0] && p2Y === player2.body[i][1]) {
+    //     if (player1.alive === true) {
+    //       player2.alive = false;
+    //       player2.length -= 5;
+    //       player2.body.splice(-5);
+    //       setTimeout(function(){
+    //         player1.alive = true;
+    //      }, 3000);
+    //     }
+    //   }
+    // }
 
   }
 
@@ -110,9 +110,7 @@ class Canvas {
     
     player1.moveSnake();
     player2.moveSnake();
-    if (this.intervalId != 0) {
-      this.checkCollision();
-    }
+    this.checkCollision();
     food.drawFood();
     this.leader();
     this.checkLoser();
